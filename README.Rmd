@@ -1,0 +1,42 @@
+---
+title: "fluxweb Workflow"
+author: "Jim Junker"
+date: "January 10, 2019"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fluxweb)
+library(knitr)
+```
+
+Here is a step-by-step introduction to working with the fluxweb package, assciated data, and another novel example. First steps are to install and load the package:
+
+`install.packages("fluxweb")`
+
+Load the package
+
+`library(fluxweb)`
+
+The *fluxweb* package comes with three data sets that represent three levels of complexity--from a species-specific level with 62 individual nodes to a simple case with four aggregated groupings (Figure 1).
+
+![configurations of data sets found in the fluxweb package](`r paste(getwd(),"/README-files/Gauzens-et-al-2017_fig-1.png",sep = "")`)
+
+These data sets can be viewed by calling `data()` function:
+
+`data(package="fluxweb")`
+
+They all have the same structure, a list of five items:
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $mat: a binary feeding matrix of *i* resources (rows) and *j* consumers (columns)  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $biomasses:  vector of standing biomass for each node  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $bodymasses:  vector of body sizes for each node  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Alternatively, this could be $met.rate:  vector of metabolic rates for each node  
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $efficiencies:  vector of feeding efficiencies. What this values represents (e.g., assimilation efficiency, gross production efficiency, etc.) depends on the loss term used in *bodymasses*
+
+```{r mat-table, echo = FALSE}
+knitr::kable(simple.case[['mat']])
+```
+
+The species-level and simple cases are binary, connectance webs. They only show if a feeding interaction exists, there are no consumer diets preferences. Therefore, we first walk through the example of mdderate complexity that has some aggregation of fo
