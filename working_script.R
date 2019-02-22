@@ -1,10 +1,13 @@
 #install pacakges
-install.packages('fluxweb')
+load_packages = function(){
+if(!require("pacman")) install.packages("pacman")
+library(pacman)
+package.list <- c("fluxweb")
+p_load(char = package.list, install = T)
+rm("package.list")
 '%ni%' <- Negate('%in%')
-
-#load packages
-library(fluxweb)
-
+}
+load_packages()
 ## pull the package example data sets
 # view the data available
 data(package = "fluxweb")
@@ -14,7 +17,7 @@ groups = groups.level#aggregated case
 
 species = species.level#complicated case
 
-simple = simple.case##
+simple = simple.case##simple case
 
 #setting the metabolic rates for fluxing example
 
@@ -49,4 +52,8 @@ herbivory
 carnivory
 detritivory
 total
-sum(herbivory,carnivory,detritory)
+sum(herbivory,carnivory,detritivory)
+##for some reason the sums don't match
+identical(total,sum(herbivory, carnivory, detritivory))
+
+          

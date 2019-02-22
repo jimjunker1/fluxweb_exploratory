@@ -39,4 +39,4 @@ They all have the same structure, a list of five items:
 knitr::kable(simple.case[['mat']])
 ```
 
-The species-level and simple cases are binary, connectance webs. They only show if a feeding interaction exists, there are no consumer diets preferences. Therefore, we first walk through the example of mdderate complexity that has some aggregation of fo
+The species-level and simple cases are binary, connectance webs. They only show if a feeding interaction exists, there are no consumer diets preferences. Therefore, we first walk through the example of moderate complexity that has some aggregation of fo
