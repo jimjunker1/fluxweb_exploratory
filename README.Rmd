@@ -85,7 +85,7 @@ Figure 3. Material flux matrix from resources (rows) to consumers (columns).
 
 ```{r mat.flux table, echo = T, fig.align="center"}
 
-colnames(simple.case['mat']$mat) <- rownames(simple.case['mat']$mat) <- simple.case['names']$names
+colnames(simple$mat) <- rownames(simple$mat) <- simple$names
 knitr::kable(t(mat.fluxes))
 
 ```
