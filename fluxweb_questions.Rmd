@@ -1,0 +1,35 @@
+---
+title: "Fluxweb workthru"
+author: "Jim Junker"
+date: "February 22, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+First load packages:
+
+```{r load packages, echo = T}
+library(fluxweb)
+library(knitr)
+```
+
+Now set the column names and rownames of the example matrix and view it:
+
+
+Figure 1. Food web interaction matrix between resource *i* (rows) and consumers *j* (columns).
+
+```{r set names and view, echo = T, fig.align='center'}
+colnames(simple.case$mat) <- rownames(simple.case$mat) <- simple.case$names
+knitr::kable(simple.case$mat)
+```
+
+This looks weird, as it suggest Macroalgae are eating Gammarus and Bittium and the predatory grass shrimp, Palaemonetes, is eating nothing. 
+
+I think this is simply that the matrix is transposed:
+
+```{r transpose, echo = T}
+knitr::kable(t(simple.case$mat))
+```

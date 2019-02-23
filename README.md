@@ -20,11 +20,11 @@ nodes to a simple case with four aggregated groupings (Figure 1).
 ![configurations of data sets found in the fluxweb
 package](C:/Users/Junker/Documents/Projects/fluxweb_exploratory/README-files/Gauzens-et-al-2017_fig-1.png)
 
-These data sets can be viewed by calling `data()` function:
+These data sets can be viewed by calling `data()`:
 
 `data(package="fluxweb")`
 
-They all have the same structure, a list of five items:
+They all have the generally the same structure, a list of five items:
 
        $mat: a binary feeding matrix of *i* resources (rows) and *j*
 consumers (columns)  
@@ -34,16 +34,109 @@ consumers (columns)
 rates for each node  
        $efficiencies: vector of feeding efficiencies. What this values
 represents (e.g., assimilation efficiency, gross production efficiency,
-etc.) depends on the loss term used in *bodymasses*
+etc.) depends on the loss term used in *bodymasses*  
+       $names: vector of names for the rows/columns  
+             Alternatively, this can be a data.frame with species names,
+some trophic grouping, trophic level, etc. (see `groups.level` in
+example).
 
-|   |   |   |   |
-| -: | -: | -: | -: |
-| 0 | 0 | 1 | 0 |
-| 0 | 0 | 1 | 0 |
-| 0 | 0 | 0 | 0 |
-| 1 | 1 | 0 | 0 |
+<center>
 
-The species-level and simple cases are binary, connectance webs. They
-only show if a feeding interaction exists, there are no consumer diets
-preferences. Therefore, we first walk through the example of mdderate
-complexity that has some aggregation of fo
+Figure 2. Feeding interaction matrix of the simplified case (Fig. 1c).
+Food resources are represented as rows and consumers are
+columns.
+
+|                     | Gammarus mucronatus | Bittium varium | Macroalgae | Palaemonetes spp. |
+| ------------------- | ------------------: | -------------: | ---------: | ----------------: |
+| Gammarus mucronatus |                   0 |              0 |          0 |                 1 |
+| Bittium varium      |                   0 |              0 |          0 |                 1 |
+| Macroalgae          |                   1 |              1 |          0 |                 0 |
+| Palaemonetes spp.   |                   0 |              0 |          0 |                 0 |
+
+</center>
+
+We will first walk through the simple case. Loading in the example as a
+list of length five(5):
+
+``` r
+simple = simple.case
+```
+
+We have already explored the contents of the list above as well as the
+structure of the feeding matrix (Fig. 2), but for a reminder the five
+items are: ‘mat’ - feeding matrix (4 x 4), ‘met.rate’ - metabolic rates
+of each node (numeric vector, length = 4), ‘biomasses’ - the biomass of
+each node (numeric vector, length = 4), ‘efficiencies’ - efficiency of
+feeding links (numeric vector, length = 4), and ‘names’ - the names for
+each node (character vector, length = 4).
+
+But let’s look at the other items:
+
+``` r
+names(simple$met.rate) <- simple$names
+simple$met.rate
+```
+
+    ## Gammarus mucronatus      Bittium varium          Macroalgae 
+    ##        9.130425e-06        1.205617e-05        4.580287e-02 
+    ##   Palaemonetes spp. 
+    ##        3.056306e+01
+
+``` r
+names(simple$biomasses) <- simple$names
+simple$biomasses
+```
+
+    ## Gammarus mucronatus      Bittium varium          Macroalgae 
+    ##              0.7900            120.9925           4557.5000 
+    ##   Palaemonetes spp. 
+    ##             32.7000
+
+``` r
+names(simple$efficiencies) <- simple$names
+simple$efficiencies
+```
+
+    ## Gammarus mucronatus      Bittium varium          Macroalgae 
+    ##               0.545               0.545               1.000 
+    ##   Palaemonetes spp. 
+    ##               0.906
+
+We have everything we need now to run the basic flux
+estimation:
+
+``` r
+mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = simple$met.rate, efficiencies = simple$efficiencies, bioms.prefs = FALSE, bioms.losses = FALSE, ef.level = "prey")
+```
+
+`mat.fluxes` is a 4 x 4 matrix that is the material flux from resources
+(rows) to consumers (columns).
+
+<center>
+
+Figure 3. Material flux matrix from resources (rows) to consumers
+(columns).
+
+``` r
+colnames(simple.case['mat']$mat) <- rownames(simple.case['mat']$mat) <- simple.case['names']$names
+knitr::kable(t(mat.fluxes))
+```
+
+|                     | Gammarus mucronatus | Bittium varium | Macroalgae | Palaemonetes spp. |
+| ------------------- | ------------------: | -------------: | ---------: | ----------------: |
+| Gammarus mucronatus |            0.000000 |       0.000000 |          0 |         0.0463909 |
+| Bittium varium      |            0.000000 |       0.000000 |          0 |         0.0463941 |
+| Macroalgae          |            0.042021 |       0.042021 |          0 |         0.0000000 |
+| Palaemonetes spp.   |            0.000000 |       0.000000 |          0 |         0.0000000 |
+
+</center>
+
+In the species-level (a) and simple cases (c) the feeding is based on
+relative abundance of prey types. This is done by setting a feeding
+connection to ‘1’, meaning a feeding interaction exists, but there is
+not preference for the prey item. Therefore, feeding rates are just
+based on relative abundance in the model.
+
+stepping through the example of moderate complexity that has some
+aggregation of prey and food items is the most useful to understand how
+we can alter the interactions to
