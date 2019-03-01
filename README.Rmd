@@ -92,4 +92,4 @@ knitr::kable(t(mat.fluxes))
 
 In the species-level (a) and simple cases (c) the feeding is based on relative abundance of prey types. This is done by setting a feeding connection to '1', meaning a feeding interaction exists, but there is not preference for the prey item. Therefore, feeding rates are just based on relative abundance in the model.
 
-stepping through the example of moderate complexity that has some aggregation of prey and food items is the most useful to understand how we can alter the interactions to 
+<!-- stepping through the example of moderate complexity that has some aggregation of prey and food items is the most useful to understand how we can alter the interactions to  -->

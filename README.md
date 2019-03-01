@@ -112,13 +112,11 @@ mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = 
 `mat.fluxes` is a 4 x 4 matrix that is the material flux from resources
 (rows) to consumers (columns).
 
-<center>
-
 Figure 3. Material flux matrix from resources (rows) to consumers
 (columns).
 
 ``` r
-colnames(simple.case['mat']$mat) <- rownames(simple.case['mat']$mat) <- simple.case['names']$names
+colnames(simple$mat) <- rownames(simple$mat) <- simple$names
 knitr::kable(t(mat.fluxes))
 ```
 
@@ -129,14 +127,11 @@ knitr::kable(t(mat.fluxes))
 | Macroalgae          |            0.042021 |       0.042021 |          0 |         0.0000000 |
 | Palaemonetes spp.   |            0.000000 |       0.000000 |          0 |         0.0000000 |
 
-</center>
-
 In the species-level (a) and simple cases (c) the feeding is based on
 relative abundance of prey types. This is done by setting a feeding
 connection to ‘1’, meaning a feeding interaction exists, but there is
 not preference for the prey item. Therefore, feeding rates are just
-based on relative abundance in the model.
+based on relative abundance in the
+model.
 
-stepping through the example of moderate complexity that has some
-aggregation of prey and food items is the most useful to understand how
-we can alter the interactions to
+<!-- stepping through the example of moderate complexity that has some aggregation of prey and food items is the most useful to understand how we can alter the interactions to  -->
