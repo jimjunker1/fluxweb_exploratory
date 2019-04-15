@@ -63,6 +63,8 @@ names(simple$met.rate) <- simple$names
 simple$met.rate
 ```
 
+Importantly, this is total summed annual metabolic rates in J/year. Therefore when we run the simple.case in the `fluxing()` function, we should set `bioms.losses = FALSE`. If we set this to `TRUE`, the metabolic rates are multiplied by the biomasses. 
+
 ```{r biomasses, echo = T}
 names(simple$biomasses) <- simple$names
 simple$biomasses
@@ -76,7 +78,7 @@ simple$efficiencies
 We have everything we need now to run the basic flux estimation:
 
 ```{r simple fluxing, echo = T}
-mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = simple$met.rate, efficiencies = simple$efficiencies, bioms.prefs = FALSE, bioms.losses = FALSE, ef.level = "prey")
+mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = simple$met.rate, efficiencies = simple$efficiencies, bioms.prefs = FALSE, bioms.losses = FALSE, ef.level = "pred")
 ```
 
 `mat.fluxes` is a 4 x 4 matrix that is the material flux from resources (rows) to consumers (columns).

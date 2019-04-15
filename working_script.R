@@ -30,14 +30,14 @@ mat.fluxes = fluxing(groups[[1]], groups[['biomasses']], met.rates,
         groups[['efficiencies']], bioms.losses = T, bioms.prefs = T, ef.level = "prey")
 
 # attach(species.level)
-attach(groups)
+attach(groups.level)
 
 met.rates = 0.71+species.level$bodymasses^-0.25
 met.rates = 0.71+groups$bodymasses^-0.25
 
 colnames(simple['mat']$mat) <- rownames(simple['mat']$mat) <- simple['names']$names
 # colnames(mat) <- rownames(mat) <- species.level$names
-
+attach(species.level)
 mat.fluxes <- fluxing(mat, biomasses, met.rates, efficiencies)
 
 basals <- colSums(mat.fluxes) == 0
@@ -63,5 +63,22 @@ sum(herbivory,carnivory,detritivory)
 ##for some reason the sums don't match
 identical(total,sum(herbivory, carnivory, detritivory))
 
+simple.case$efficiencies[3] <- 1.0
 
-          
+colnames(simple.case$mat) <- rownames(simple.case$mat) <- simple.case$names
+
+mat.fluxes = fluxing(mat = t(simple.case$mat), losses = simple.case$met.rate, biomasses = simple.case$biomasses,
+                     efficiencies = simple.case$efficiencies, bioms.prefs = TRUE, bioms.losses = FALSE, ef.level = 'pred')
+mat.fluxes
+
+simple.case$mat
+
+losses = 0.15 * $bodymasses^(-0.25)
+
+growth.rates = rep(NA, dim(simple.case$mat)[1])
+growth.rates[colSums(groups.level$mat) == 0] = 0.5
+
+make.stability(mat.fluxes, biomasses = simple.case$biomasses, losses = simple.case$met.rates, efficiencies = simple.case$efficiencies, growth.rates, 
+               bioms.prefs = TRUE, bioms.losses = TRUE, ef.level = "prey", interval = c(1e-12, 1))
+ diag(simple.case$efficiencies)         
+ 

@@ -82,6 +82,11 @@ simple$met.rate
     ##   Palaemonetes spp. 
     ##        3.056306e+01
 
+Importantly, this is total summed annual metabolic rates in J/year.
+Therefore when we run the simple.case in the `fluxing()` function, we
+should set `bioms.losses = FALSE`. If we set this to `TRUE`, the
+metabolic rates are multiplied by the biomasses.
+
 ``` r
 names(simple$biomasses) <- simple$names
 simple$biomasses
@@ -106,7 +111,7 @@ We have everything we need now to run the basic flux
 estimation:
 
 ``` r
-mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = simple$met.rate, efficiencies = simple$efficiencies, bioms.prefs = FALSE, bioms.losses = FALSE, ef.level = "prey")
+mat.fluxes <- fluxing(mat = simple$mat, biomasses  = simple$biomasses, losses = simple$met.rate, efficiencies = simple$efficiencies, bioms.prefs = FALSE, bioms.losses = FALSE, ef.level = "pred")
 ```
 
 `mat.fluxes` is a 4 x 4 matrix that is the material flux from resources
@@ -122,10 +127,10 @@ knitr::kable(t(mat.fluxes))
 
 |                     | Gammarus mucronatus | Bittium varium | Macroalgae | Palaemonetes spp. |
 | ------------------- | ------------------: | -------------: | ---------: | ----------------: |
-| Gammarus mucronatus |            0.000000 |       0.000000 |          0 |         0.0463909 |
-| Bittium varium      |            0.000000 |       0.000000 |          0 |         0.0463941 |
-| Macroalgae          |            0.042021 |       0.042021 |          0 |         0.0000000 |
-| Palaemonetes spp.   |            0.000000 |       0.000000 |          0 |         0.0000000 |
+| Gammarus mucronatus |           0.0000000 |      0.0000000 |          0 |         0.0420377 |
+| Bittium varium      |           0.0000000 |      0.0000000 |          0 |         0.0420431 |
+| Macroalgae          |           0.0229014 |      0.0229014 |          0 |         0.0000000 |
+| Palaemonetes spp.   |           0.0000000 |      0.0000000 |          0 |         0.0000000 |
 
 In the species-level (a) and simple cases (c) the feeding is based on
 relative abundance of prey types. This is done by setting a feeding
